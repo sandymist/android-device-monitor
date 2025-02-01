@@ -1,0 +1,5 @@
+<resources>
+    <string name="title_activity_debug">DebugActivity</string>
+    <string name="share">Share</string>
+    <string name="choose_app_to_share">Choose an app to share debug information</string>
+</resources>
