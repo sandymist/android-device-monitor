@@ -9,7 +9,6 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.provider.Settings
-import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -20,9 +19,10 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Suppress("unused")
-class NetworkMonitor private constructor(context: Context) {
+internal class NetworkMonitor private constructor(context: Context) {
     private var lastNetworkEventTimestamp = 0L
     private val scope = CoroutineScope(Dispatchers.IO)
     private val isInAirplaneModeNow = Settings.Global.getInt(context.contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0) != 0
@@ -65,7 +65,7 @@ class NetworkMonitor private constructor(context: Context) {
     init {
         callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
-                Log.d(TAG, "Network: Connected")
+                Timber.d("Network: Connected")
                 val availableConnectionStatus = getNetworkConnectionStatus(network)
                 val activeConnectionStatus = connectivityManager.activeNetwork?.let { getNetworkConnectionStatus(it) }
                 scope.launch {
@@ -75,13 +75,13 @@ class NetworkMonitor private constructor(context: Context) {
                         lastNetworkEventTimestamp,
                         airplaneModeFlow.value,
                     )
-                    Log.d(TAG, "Network connected status: $status")
+                    Timber.d("Network connected status: $status")
                     _networkStatus.emit(status)
                 }
             }
 
             override fun onUnavailable() {
-                Log.e(TAG, "Network: Unavailable")
+                Timber.e("Network: Unavailable")
                 val activeConnectionStatus = connectivityManager.activeNetwork?.let { getNetworkConnectionStatus(it) }
                 scope.launch {
                     val status = NetworkStatus.Disconnected(
@@ -89,13 +89,13 @@ class NetworkMonitor private constructor(context: Context) {
                         lastNetworkEventTimestamp,
                         airplaneModeFlow.value,
                     )
-                    Log.d(TAG, "Network unavailable status: $status")
+                    Timber.d("Network unavailable status: $status")
                     _networkStatus.emit(status)
                 }
             }
 
             override fun onLost(network: Network) {
-                Log.e(TAG, "Network: Disconnected")
+                Timber.e("Network: Disconnected")
                 val activeConnectionStatus = connectivityManager.activeNetwork?.let { getNetworkConnectionStatus(it) }
                 scope.launch {
                     val status = NetworkStatus.Disconnected(
@@ -103,7 +103,7 @@ class NetworkMonitor private constructor(context: Context) {
                         lastNetworkEventTimestamp,
                         airplaneModeFlow.value,
                     )
-                    Log.d(TAG, "Network disconnected status: $status")
+                    Timber.d("Network disconnected status: $status")
                     _networkStatus.emit(status)
                 }
             }
@@ -115,7 +115,7 @@ class NetworkMonitor private constructor(context: Context) {
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .build()
 
-        Log.d(TAG, "Network: register listener")
+        Timber.d("Network: register listener")
         connectivityManager.registerNetworkCallback(request, callback)
         emitCurrentNetworkStatus()
 

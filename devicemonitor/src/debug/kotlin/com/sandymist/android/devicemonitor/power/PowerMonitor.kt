@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class PowerMonitor private constructor(context: Context) {
+internal class PowerMonitor private constructor(context: Context) {
     private val _powerStatus = MutableStateFlow<PowerStatus>(PowerStatus.Unknown)
     val powerStatus = _powerStatus.asStateFlow()
     private val scope = CoroutineScope(Dispatchers.IO)

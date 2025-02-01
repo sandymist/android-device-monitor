@@ -16,8 +16,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -36,11 +38,14 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun MonitorScreen(
     modifier: Modifier = Modifier,
-    networkMonitor: NetworkMonitor,
-    powerMonitor: PowerMonitor,
-    audioMonitor: AudioMonitor,
-    deviceMonitor: DeviceMonitor,
 ) {
+    // TODO: Inject these
+    val context = LocalContext.current
+    val networkMonitor = NetworkMonitor.getInstance(context)
+    val powerMonitor = PowerMonitor.getInstance(context)
+    val audioMonitor = AudioMonitor.getInstance(context)
+    val deviceMonitor = DeviceMonitor(context)
+
     val networkStatus by networkMonitor.networkStatus.collectAsStateWithLifecycle()
     val powerStatus by powerMonitor.powerStatus.collectAsStateWithLifecycle()
     val audioStatus by audioMonitor.audioStatus.collectAsStateWithLifecycle()

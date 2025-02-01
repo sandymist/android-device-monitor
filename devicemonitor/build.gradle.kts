@@ -3,7 +3,6 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     kotlin("plugin.serialization") version "1.9.25"
-//    id("kotlin-parcelize")
     id("maven-publish")
 }
 
@@ -89,16 +88,10 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-//    // retrofit
-//    implementation(libs.retrofit)
-
     // serialization
-//    implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.timber)
-//    implementation(libs.android.utilities)
-//    implementation(libs.androidx.datastore.preferences)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -106,12 +99,12 @@ dependencies {
 }
 
 configure<PublishingExtension> {
-    publications.create<MavenPublication>("release") {
-        groupId = "com.github.sandymist.android"
-        artifactId = "devicemonitor"
+    publications.create<MavenPublication>("debug") {
+        groupId = "com.sandymist.android"
+        artifactId = "device-monitor"
         version = rootProject.extra["projectVersion"] as String
         afterEvaluate {
-            from(components["release"])
+            from(components["debug"])
         }
     }
 

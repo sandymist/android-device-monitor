@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class AudioMonitor private constructor(context: Context) {
+internal class AudioMonitor private constructor(context: Context) {
     private val _audioStatus = MutableStateFlow<AudioStatus>(AudioStatus.Unknown)
     val audioStatus = _audioStatus.asStateFlow()
     private val scope = CoroutineScope(Dispatchers.IO)

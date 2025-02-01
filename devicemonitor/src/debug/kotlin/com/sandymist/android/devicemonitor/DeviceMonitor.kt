@@ -12,7 +12,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
-class DeviceMonitor(context: Context) {
+internal class DeviceMonitor(context: Context) {
     private var networkMonitor = NetworkMonitor.getInstance(context)
     private var powerMonitor = PowerMonitor.getInstance(context)
     private var audioMonitor = AudioMonitor.getInstance(context)
