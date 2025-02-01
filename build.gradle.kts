@@ -13,4 +13,4 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
 }
 
-val projectVersion: String by extra("0.0.4")
+val projectVersion: String by extra("0.0.2")

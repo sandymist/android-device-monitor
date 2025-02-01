@@ -8,6 +8,9 @@ This library will be further enhanced to collect and report more data useful for
 Add the gradle dependency as follows
 
 ```
+repositories {
+    maven { url = uri("https://jitpack.io") }
+}
 dependencies {
     implementation "com.sandymist.android:devicemonitor:0.0.1" // replace version as needed
 }
@@ -26,29 +29,33 @@ deviceMonitor.deviceMonitorFlow
 The information reported is serialized monitoring data. For example,
 
 ```
-{
-  "networkStatus" : {
-    "since" : 0,
-    "availableConnectionStatus" : {
-      "usingVPN" : false,
-      "isValidated" : true,
-      "isBehindCaptivePortal" : false,
-      "isNotMetered" : true,
-      "usingCellular" : false,
-      "usingWiFi" : true
-    },
-    "activeConnectionStatus" : {
-      "usingVPN" : false,
-      "isValidated" : true,
-      "isBehindCaptivePortal" : false,
-      "isNotMetered" : true,
-      "usingCellular" : false,
-      "usingWiFi" : true
+    {
+      "audioStatus" : {
+        "device" : "Phone Speaker"
+      },
+      "networkStatus" : {
+        "isInAirplaneMode" : false,
+        "availableConnectionStatus" : {
+          "usingVPN" : false,
+          "isValidated" : true,
+          "isBehindCaptivePortal" : false,
+          "isNotMetered" : true,
+          "usingCellular" : false,
+          "usingWiFi" : true
+        },
+        "activeConnectionStatus" : {
+          "usingVPN" : false,
+          "isValidated" : true,
+          "isBehindCaptivePortal" : false,
+          "isNotMetered" : true,
+          "usingCellular" : false,
+          "usingWiFi" : true
+        },
+        "since" : 0
+      },
+      "powerStatus" : {
+        "isDeviceIdleMode" : false,
+        "isPowerSaveMode" : false
+      }
     }
-  },
-  "powerStatus" : {
-    "isDeviceIdleMode" : false,
-    "isPowerSaveMode" : false
-  }
-}
 ```
