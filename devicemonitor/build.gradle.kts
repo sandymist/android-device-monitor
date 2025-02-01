@@ -107,7 +107,7 @@ dependencies {
 
 configure<PublishingExtension> {
     publications.create<MavenPublication>("release") {
-        groupId = "com.sandymist.android"
+        groupId = "com.github.sandymist.android"
         artifactId = "devicemonitor"
         version = rootProject.extra["projectVersion"] as String
         afterEvaluate {
